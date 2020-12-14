@@ -1,0 +1,7 @@
+{
+	"APIURL": {
+		"QA": "https://api.ratesapi.io/api/latest",
+		"STG": "",
+		"PP": ""
+	}
+}
