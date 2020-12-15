@@ -12,6 +12,7 @@ import io.restassured.specification.RequestSpecification;
 public class LatestConversionReq {
 
 	static BasePojo responsePojo;
+	String baseURI, baseURILatest;
 	
 	public static BasePojo getBaseResponse() {
 		RequestSpecification request = RestAssured.given();

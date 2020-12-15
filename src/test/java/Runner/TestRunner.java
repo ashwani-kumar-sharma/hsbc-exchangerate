@@ -15,7 +15,7 @@ import hsbc.api.utilities.BaseTest;
 import hsbc.api.utilities.FrameWorkConstants;
 
 @RunWith(Cucumber.class)
-@CucumberOptions( plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/extent-report/report.html"},features="src/test/java/Features",glue= {"stepDefinitions"},tags="@Test")
+@CucumberOptions( plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/extent-report/report.html"},features="src/test/resources/Features",glue= {"stepDefinitions"},tags="@Test")
 
 public class TestRunner extends BaseTest{	
 	

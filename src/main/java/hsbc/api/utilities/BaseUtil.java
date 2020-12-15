@@ -4,6 +4,10 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -57,14 +61,8 @@ public class BaseUtil {
 	 * @param test1
 	 *            instance of ExtentTest (Datatype :ExtentTest)
 	 */
-	public BaseUtil(ExtentTest test1) {
-		test = test1;
-		
-		
-		if (testName == null) {
-			testName = test.getModel().getName();
-		}
-		
+	public BaseUtil() {
+
 
 	}
 
@@ -495,68 +493,42 @@ public class BaseUtil {
 		return actualDate;
 	}
 
-	/**
-	 * Method to compare dates
-	 * 
-	 * @param strActualDate
-	 *            (datatype:String)
-	 * 
-	 * @param strExpectedDate
-	 *            (datatype:String)
-	 * 
-	 * @param strDateFormat
-	 *            (datatype:String)
-	 * @param dateOperator
-	 *            (datatype:DATECOMPARE)
-	 * @return Date object returned after successful conversion otherwise null
-	 *         (datatype:Date)
-	 */
-	public boolean compareDates(String strActualDate, String strExpectedDate, String strDateFormat,
-			DATECOMPARE dateOperator) {
-		Date actualDate = convertStringToDate(strActualDate, strDateFormat);
-		Date expectedDate = convertStringToDate(strExpectedDate, strDateFormat);
-		boolean isDateExpected = false;
-		switch (dateOperator) {
-		case EQUAL:
-			if (actualDate.compareTo(expectedDate) == 0)
-				isDateExpected = true;
-			break;
-		case LESSTHAN:
-			if (actualDate.compareTo(expectedDate) < 0)
-				isDateExpected = true;
-			break;
-		case GREATERTHAN:
-			if (actualDate.compareTo(expectedDate) > 0)
-				isDateExpected = true;
-			break;
-		case LESSTHANEQUALTO:
-			if (actualDate.compareTo(expectedDate) < 0 || actualDate.compareTo(expectedDate) == 0)
-				isDateExpected = true;
-			break;
-		case GREATERTRAHNEQUALTO:
-			if (actualDate.compareTo(expectedDate) > 0 || actualDate.compareTo(expectedDate) == 0)
-				isDateExpected = true;
-			break;
-		default:
-			reportFailure("Date Compare operator mismatched");
-			break;
+	// *****************************************************************************************************************************************
+	// Function Objective:Get today's date
+	// *****************************************************************************************************************************************
+		public LocalDate getTodaysDate() {
+			LocalDate date = null;
+			try {
+				ZoneId zoneId = ZoneId.of("America/Los_Angeles");
+				date = LocalDate.from(ZonedDateTime.now(zoneId));
+				//date = date.minusDays(1);
+				System.out.println("Today's date is" + date.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Failed to fetch today's date" + e.getMessage());
+			}
+			return date;
 		}
-		return isDateExpected;
-	}
 
-	/**
-	 * method to set Download path of Browser
-	 * 
-	 * @param downloadFilePath
-	 *            (datatype: String)
-	 * @return chromePrefs Object After setting the preference (datatype:Date)
-	 */
-	public static Object setDownloadPath(String downloadFilePath) {
-		HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-		chromePrefs.put("profile.default_content_settings.popups", 0);
-		chromePrefs.put("download.default_directory", downloadFilePath);
-		return chromePrefs;
-	}
+		// ****************************************************************************************************************************************
+		// Function Objective:Check if given date falls on a weekend. If yes, return
+		// Friday's date.
+		// *****************************************************************************************************************************************
+		public String getWorkingDate(LocalDate date) throws ParseException {
+			LocalDate result = date;
+			if (date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+				System.out.println("Input date falls on a Saturday" + date.toString());
+				result = date.minusDays(1);
+			}
+
+			else if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+				System.out.println("Input date falls on a Sunday" + date.toString());
+				result = date.minusDays(2);
+			}
+
+			System.out.println("Previous working date fetched as '" + result.toString() + "'");
+			return result.toString();
+		}
 
 	/**
 	 * Method is to test file exist or not

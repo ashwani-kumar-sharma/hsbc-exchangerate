@@ -8,7 +8,7 @@ public class APIPath {
 		private static final String LATEST = "/latest";
 		private static final String GET_REFERENCE_RATES = "HTTP/2";
 		private static final String GET_SYMBOLS = "symbols=";
-		private static final String GET_BASE = "?base=";
+		private static final String GET_BASE = "base=";
 		
 		public static String getLatestBase(){
 			return LATEST + GET_BASE;
