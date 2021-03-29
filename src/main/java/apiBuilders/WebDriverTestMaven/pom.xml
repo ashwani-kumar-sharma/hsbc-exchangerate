@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>WebDriverTestMaven</groupId>
+  <artifactId>WebDriverTestMaven</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.seleniumhq.selenium</groupId>
+  		<artifactId>selenium-java</artifactId>
+  		<version>3.0.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.maven.surefire</groupId>
+  		<artifactId>surefire-api</artifactId>
+  		<version>2.19</version>
+  	</dependency>
+  	<dependency>				
+             <groupId>junit</groupId>								
+             <artifactId>junit</artifactId>								
+             <version>4.12</version>								
+             <scope>test</scope>								
+     </dependency>
+  </dependencies>
+</project>
+<resources>
+    <resource>
+        <directory>src/test/resources/testData</directory>
+        <filtering>true</filtering>
+        <includes>
+            <include>testData.properties</include>
+        </includes>
+    </resource>
+</resources>
+<plugins>
+	<plugin>
+		<groupid>org.apache.maven.plugins</groupid>
+		<artifactid>maven-compiler-plugin</artifactid>
+		<version>3.1.0</version>
+		<configuration>
+		<source>1.7</source>
+		<target>1.7</target>
+		</configuration>
+	</plugin>
+	<plugin>
+		<groupid>org.apache.maven.plugins</groupid>
+		<artifactid>maven-surefire-plugin</artifactid>
+		<version>2.12</version>
+		<inherited>true</inherited>
+		<configuration></configuration>
+	</plugin>
+</plugins>

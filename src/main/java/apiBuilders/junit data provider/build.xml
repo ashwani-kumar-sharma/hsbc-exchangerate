@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="junit-dataprovider" basedir=".">
+
+    <!-- Folders and files -->
+    <property name="src.dir" location="${basedir}/src" />
+    <property name="src.main.java.dir" location="${src.dir}/main/java" />
+    <property name="src.test.java.dir" location="${src.dir}/integTest/java" />
+
+    <property name="libs.dir" location="${user.home}/.gradle/caches/modules-2/" />
+
+    <property name="build.dir" location="${basedir}/build" />
+    <property name="build.classes.dir" location="${build.dir}/classes" />
+    <property name="build.classes.main.dir" location="${build.classes.dir}/main" />
+    <property name="build.classes.test.dir" location="${build.classes.dir}/integTest" />
+
+    <property name="test.reports.dir" location="${build.dir}/reports/ant-tests" />
+
+    <!-- Libraries -->
+    <fileset id="libs.fileset" dir="${libs.dir}">
+        <include name="**/assertj-*.jar" />
+        <include name="**/asm-*.jar" />
+        <include name="**/groovy-*.jar" />
+        <include name="**/hamcrest-*.jar" />
+        <include name="**/junit-4.12.jar" />
+    </fileset>
+
+    <!-- Targets -->
+    <target name="init" />
+
+    <target name="check-libs.fileset-is-not-empty">
+        <pathconvert refid="libs.fileset" property="libs.fileset.notempty" setonempty="false" />
+        <fail unless="libs.fileset.notempty">
+            Run './gradlew build' first due to missing Gradle libraries in ${libs.dir}!
+        </fail>
+
+        <available file="${build.classes.dir}" property="build.classes.dir.exists" />
+        <fail unless="build.classes.dir.exists">
+            Run './gradlew build' first due to missing class files in ${build.classes.dir}.
+        </fail>
+    </target>
+
+    <target name="test" depends="init, check-libs.fileset-is-not-empty">
+        <delete dir="${test.reports.dir}" />
+        <mkdir dir="${test.reports.dir}" />
+
+        <junit haltonerror="true" haltonfailure="true">
+            <classpath>
+                <pathelement location="${build.classes.main.dir}" />
+                <pathelement location="${build.classes.test.dir}" />
+
+                <fileset refid="libs.fileset" />
+            </classpath>
+
+            <formatter usefile="false" type="brief" />
+
+            <!-- single category -->
+            <batchtest>
+                <fileset dir="${build.classes.test.dir}">
+                    <include name="**/CategoryOneTestSuite.class" />
+                </fileset>
+            </batchtest>
+
+            <!-- single test class -->
+            <test name="com.tngtech.test.java.junit.dataprovider.DataProviderGroovyAcceptanceTest" />
+
+            <!-- single test method -->
+            <test name="com.tngtech.test.java.junit.dataprovider.DataProviderJavaAcceptanceTest"
+                  methods="testIsStringLengthGreaterThanTwo" />
+        </junit>
+    </target>
+</project>

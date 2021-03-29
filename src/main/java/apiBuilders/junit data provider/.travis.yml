@@ -1,0 +1,21 @@
+language: java
+
+script:
+  - ./gradlew build -PjunitVersion=4.8.2 -PskipFindBugs
+  - ./gradlew build -PjunitVersion=4.9   -PskipFindBugs
+  - ./gradlew build -PjunitVersion=4.10  -PskipFindBugs
+  - ./gradlew build -PjunitVersion=4.11  -PskipFindBugs
+  - ./gradlew build
+  - mvn test
+  - ant test
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+  - openjdk6
+
+after_success:
+  - ./gradlew jacocoTestReport coveralls
+
+sudo: false
